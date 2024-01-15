@@ -52,7 +52,7 @@ demo = gr.Interface(
     fn=extract_text_from_pdf,
     # Define input components for the interface
     inputs=[
-        gr.Textbox(label='PDF file path'),
+        gr.File(label='PDF file path'),
         gr.Slider(label='Page number to extract', minimum=0, maximum=100, step=1),
         gr.Checkbox(label="Download Extracted Text")
     ],
