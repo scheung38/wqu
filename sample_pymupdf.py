@@ -1,9 +1,20 @@
-import fitz
+import os
+import subprocess
 
-doc = fitz.open("Screenshot 2023-07-30_at_19.38.57.pdf") # open a document
-out = open("output.txt", "wb") # create a text output
-for page in doc: # iterate the document pages
-	text = page.get_text().encode("utf8") # get plain text (is in UTF-8)
-	out.write(text) # write text of page
-	out.write(bytes((12,))) # write page delimiter (form feed 0x0C)
-out.close()
+def image_to_pdf(image_path, pdf_path):
+    command = ['tesseract', image_path, pdf_path, '-l', 'eng', '–psm', '11', 'pdf']
+    subprocess.run(command, check=True)
+
+def pdf_to_text(pdf_path, text_path):
+    command = ['pdftotext', '-layout', pdf_path, text_path]
+    subprocess.run(command, check=True)
+
+def main():
+    image_path = 'images/toc.png'
+    pdf_path = 'images/toc.pdf'
+    text_path = 'output.txt'
+    image_to_pdf(image_path, pdf_path)
+    pdf_to_text(pdf_path, text_path)
+
+if __name__ == '__main__':
+    main()
