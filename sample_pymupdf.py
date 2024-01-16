@@ -2,6 +2,7 @@ import os
 import subprocess
 
 def image_to_pdf(image_path, pdf_path):
+    os.environ['TESSDATA_PREFIX'] = '/path/to/your/tessdata'  # replace with your tessdata path
     command = ['tesseract', image_path, pdf_path, '-l', 'eng', '–psm', '11', 'pdf']
     subprocess.run(command, check=True)
 
