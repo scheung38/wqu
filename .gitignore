@@ -1,1 +1,5 @@
 .venv/
+.aider*
+
+.DS_Store
+*.csv

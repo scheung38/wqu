@@ -1,2 +1,5 @@
+python 3.10.7
 python 3.11.7
 python 3.12.1
+azure-cli 2.44.0
+golang 1.21.5
