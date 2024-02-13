@@ -78,11 +78,14 @@ covariance_matrix = combined_change_df.cov()
 # Weightings
 weights = np.array([0.3, 0.3, 0.4])  # 30% BCH, 30% ETC, 40% SOL
 
-# Calculate weighted returns
+# Calculate weighted daily returns
 df['Portfolio']= combined_change_df.dot(weights)
 
-# Combined Average Return
-combined_avg_return = df['Portfolio'].mean()
+# Combined Average Daily Return
+combined_avg_daily_return = df['Portfolio'].mean()
+
+# Annualize the average daily return
+combined_avg_return = combined_avg_daily_return * 252
 
 # Combined Standard Deviation
 combined_std = df['Portfolio'].std()
