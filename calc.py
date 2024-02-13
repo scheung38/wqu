@@ -25,10 +25,19 @@ for file in csv_files:
     print(f"{file}")
     print(f"Top  5: {df_sorted.head()}")
     print("")     
-    print(f"Average Return: {df_sorted['change'].mean()}")
+    # print(f"Average Return: {df_sorted['change']}")
     
     # Step 4: Prepare the 'change' column: remove percentage signs and convert to float
     df_sorted['change'] = df_sorted['change'].str.replace('%', '').astype(float) / 100
+
+
+
+    # Calculate the average daily return
+    avg_daily_return = df_sorted['change'].mean()
+
+    # Assume 252 trading days in a year for most financial markets
+    trading_days = 252
+    annualized_return = avg_daily_return * trading_days
 
     # Step 5: Calculate the required statistics on the 'change' column
     std_dev = df_sorted['change'].std()
@@ -36,7 +45,10 @@ for file in csv_files:
     kurt = df_sorted['change'].kurt()
 
     # Print the statistics
-    print(f"Standard Deviation: {std_dev}")
+    print(f"Annualized Return (without compounding): {annualized_return * 100}%")
+
+    # print(f"Standard Deviation: {std_dev}")
+    print(f"Standard Deviation: {std_dev * 100}%")
     print(f"Skewness: {skewness}")
     print(f"Kurtosis: {kurt}")
     
