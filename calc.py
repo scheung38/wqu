@@ -9,8 +9,6 @@ csv_files = ['Bitcoin_cash.csv', 'Ethereum_classic.csv', 'Solana.csv']
 
 # Dictionary to hold 'change' columns and statistics from each DataFrame
 change_columns = {}
-statistics = {}
-portfolio_weights = {'Bitcoin_cash': 0.3, 'Ethereum_classic': 0.3, 'Solana': 0.4}
 
 # Read each CSV file into a dataframe and store in list
 for file in csv_files:
@@ -32,8 +30,6 @@ for file in csv_files:
     
     # Step 4: Prepare the 'change' column: remove percentage signs and convert to float
     df_sorted['change'] = df_sorted['change'].str.replace('%', '').astype(float) / 100
-
-
 
     # Calculate the average daily return
     avg_daily_return = df_sorted['change'].mean()
@@ -72,7 +68,8 @@ correlation_matrix = combined_change_df.corr()
 # Step 9: Calculate covariance matrix
 covariance_matrix = combined_change_df.cov()
 
-# Calculate portfolio statistics
+
+# OPTIONAL: Calculate portfolio statistics
 # Assign the weightings to each cryptocurrency and calculate the portfolio's combined average return, standard deviation, skewness, and kurtosis.
 
 # Weightings
@@ -99,18 +96,7 @@ combined_kurtosis = kurtosis(df['Portfolio'])
 print(f"Combined Average Return: {combined_avg_return * 100}%")
 print(f"Combined Standard Deviation: {combined_std * 100}%")
 print(f"Combined Skewness: {combined_skew}")
-print(f"Combined Kurtosis: {combined_kurtosis}")
-
-# portfolio_return = sum([statistics[crypto]['Annualized Return'] * weight for crypto, weight in portfolio_weights.items()])
-# portfolio_std_dev = sum([statistics[crypto]['Standard Deviation'] * weight for crypto, weight in portfolio_weights.items()])
-# portfolio_skewness = sum([statistics[crypto]['Skewness'] * weight for crypto, weight in portfolio_weights.items()])
-# portfolio_kurtosis = sum([statistics[crypto]['Kurtosis'] * weight for crypto, weight in portfolio_weights.items()])
-
-# # Print portfolio statistics
-# print(f"Portfolio Annualized Return (without compounding): {portfolio_return * 100}%")
-# print(f"Portfolio Standard Deviation: {portfolio_std_dev * 100}%")
-# print(f"Portfolio Skewness: {portfolio_skewness}")
-# print(f"Portfolio Kurtosis: {portfolio_kurtosis}")
+print(f"Combined Kurtosis: {combined_kurtosis}") 
 
 # Step 10: Optionally display the matrices
 print("Correlation Matrix:")
