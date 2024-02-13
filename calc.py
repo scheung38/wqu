@@ -25,17 +25,15 @@ for file in csv_files:
     print(f"{file}")
     print(f"Top  5: {df_sorted.head()}")
     print("")     
-    # Calculate the average return and annualize it
-    avg_return = df_sorted['change'].mean() * 252
-    print(f"Annualized Average Return: {avg_return}")
+    print(f"Average Return: {df_sorted['change'].mean()}")
     
     # Step 4: Prepare the 'change' column: remove percentage signs and convert to float
     df_sorted['change'] = df_sorted['change'].str.replace('%', '').astype(float) / 100
 
-    # Step 5: Calculate the required statistics on the 'change' column and annualize them
-    std_dev = df_sorted['change'].std() * (252 ** 0.5)
-    skewness = df_sorted['change'].skew() * (252 ** 0.5)
-    kurt = df_sorted['change'].kurt() * (252 ** 0.5)
+    # Step 5: Calculate the required statistics on the 'change' column
+    std_dev = df_sorted['change'].std()
+    skewness = df_sorted['change'].skew()
+    kurt = df_sorted['change'].kurt()
 
     # Print the statistics
     print(f"Standard Deviation: {std_dev}")
