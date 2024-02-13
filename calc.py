@@ -30,10 +30,10 @@ for file in csv_files:
     # Step 4: Prepare the 'change' column: remove percentage signs and convert to float
     df_sorted['change'] = df_sorted['change'].str.replace('%', '').astype(float) / 100
 
-    # Step 5: Calculate the required statistics on the 'change' column
-    std_dev = df_sorted['change'].std()
-    skewness = df_sorted['change'].skew()
-    kurt = df_sorted['change'].kurt()
+    # Step 5: Calculate the required statistics on the 'change' column and annualize them
+    std_dev = df_sorted['change'].std() * (252 ** 0.5)
+    skewness = df_sorted['change'].skew() * (252 ** 0.5)
+    kurt = df_sorted['change'].kurt() * (252 ** 0.5)
 
     # Print the statistics
     print(f"Standard Deviation: {std_dev}")
