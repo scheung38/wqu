@@ -25,7 +25,9 @@ for file in csv_files:
     print(f"{file}")
     print(f"Top  5: {df_sorted.head()}")
     print("")     
-    print(f"Average Return: {df_sorted['change']}")
+    # Calculate the average return and annualize it
+    avg_return = df_sorted['change'].mean() * 252
+    print(f"Annualized Average Return: {avg_return}")
     
     # Step 4: Prepare the 'change' column: remove percentage signs and convert to float
     df_sorted['change'] = df_sorted['change'].str.replace('%', '').astype(float) / 100
