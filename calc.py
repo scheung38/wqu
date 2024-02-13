@@ -6,8 +6,10 @@ from scipy.stats import skew, kurtosis
 # List of CSV file paths of 2 years of historical data for 3 cryptocurrencies
 csv_files = ['Bitcoin_cash.csv', 'Ethereum_classic.csv', 'Solana.csv']
 
-# Dictionary to hold 'change' columns from each DataFrame
+# Dictionary to hold 'change' columns and statistics from each DataFrame
 change_columns = {}
+statistics = {}
+portfolio_weights = {'Bitcoin_cash': 0.3, 'Ethereum_classic': 0.3, 'Solana': 0.4}
 
 # Read each CSV file into a dataframe and store in list
 for file in csv_files:
