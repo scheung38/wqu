@@ -10,6 +10,7 @@ MScFE 560 FM Set C GWP2.pdf
 .env
 .env copy
 *.pdf
+!f870904f702772bf0e252dc0daa3df64e7ab6b005b95d9f8ed4ac86a5a25b18a.pdf
 Group Work 2/
 
 secret_generator.py
