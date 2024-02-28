@@ -6,3 +6,14 @@ FM 3 cryptos.pages
 *.png
 
 MScFE 560 FM Set C GWP2.pdf
+
+.env
+.env copy
+*.pdf
+Group Work 2/
+
+secret_generator.py
+logs/
+
+
+FM 3 cryptos_single_page.pages
