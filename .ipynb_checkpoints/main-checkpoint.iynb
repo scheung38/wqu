@@ -1,0 +1,84 @@
+# Step 5: Binomial Tree Pricing for ATM European Call and Put
+
+import numpy as np
+
+# Parameters
+def get_params(vol):
+    S0 = 100  # Initial stock price
+    K = 100   # Strike price (ATM)
+    r = 0.05  # Risk-free rate
+    sigma = vol  # Volatility
+    T = 0.25  # Time to maturity (in years, 3 months)
+    return S0, K, r, sigma, T
+
+# Binomial tree pricing function
+def binomial_tree_european(S0, K, r, sigma, T, N, option_type='call'):
+    dt = T / N
+    u = np.exp(sigma * np.sqrt(dt))
+    d = 1 / u
+    p = (np.exp(r * dt) - d) / (u - d)
+    discount = np.exp(-r * dt)
+    
+    # Stock price tree
+    ST = np.array([S0 * (u ** j) * (d ** (N - j)) for j in range(N + 1)])
+    
+    # Option value at maturity
+    if option_type == 'call':
+        option = np.maximum(ST - K, 0)
+    else:
+        option = np.maximum(K - ST, 0)
+
+    # Step back through tree
+    for i in range(N - 1, -1, -1):
+        option = discount * (p * option[1:i+2] + (1 - p) * option[0:i+1])
+    return option[0]
+
+# Choose number of steps
+N = 100  # Sufficiently large for reliable estimate
+
+# Price ATM European call and put
+S0, K, r, sigma, T = get_params(0.20)
+call_price = binomial_tree_european(S0, K, r, sigma, T, N, 'call')
+put_price = binomial_tree_european(S0, K, r, sigma, T, N, 'put')
+
+print(f"European Call Price (ATM, σ=20%): {call_price:.4f}")
+print(f"European Put Price (ATM, σ=20%): {put_price:.4f}")
+
+# Explanation
+print("\nWe use a 100-step binomial tree for a good balance between accuracy and computation time. Increasing N further gives diminishing returns for European options.")
+
+# Step 6: Compute Delta for Call and Put at t=0
+
+def compute_delta(S0, K, r, sigma, T, N, option_type='call', h=0.01):
+    price_up = binomial_tree_european(S0 + h, K, r, sigma, T, N, option_type)
+    price_down = binomial_tree_european(S0 - h, K, r, sigma, T, N, option_type)
+    delta = (price_up - price_down) / (2 * h)
+    return delta
+
+call_delta = compute_delta(S0, K, r, sigma, T, N, 'call')
+put_delta = compute_delta(S0, K, r, sigma, T, N, 'put')
+
+print(f"\nCall Delta at t=0: {call_delta:.4f}")
+print(f"Put Delta at t=0: {put_delta:.4f}")
+
+# Comments on Delta
+print("\nDelta measures sensitivity to the underlying. Call delta is positive (benefits from price increase), put delta is negative (benefits from price decrease). Their magnitudes are typically less than 1 in absolute value for ATM options.")
+
+# Step 7: Vega Sensitivity (change volatility from 20% to 25%)
+
+# Compute new prices with higher volatility
+S0, K, r, sigma_high, T = get_params(0.25)
+call_price_high = binomial_tree_european(S0, K, r, sigma_high, T, N, 'call')
+put_price_high = binomial_tree_european(S0, K, r, sigma_high, T, N, 'put')
+
+# Compute sensitivity (approximate vega)
+call_vega = (call_price_high - call_price) / (0.25 - 0.20)
+put_vega = (put_price_high - put_price) / (0.25 - 0.20)
+
+print(f"\nCall Price (σ=25%): {call_price_high:.4f}")
+print(f"Put Price (σ=25%): {put_price_high:.4f}")
+print(f"\nCall Vega (approx): {call_vega:.4f}")
+print(f"Put Vega (approx): {put_vega:.4f}")
+
+# Comments on Vega
+print("\nBoth call and put prices increase with volatility, but the sensitivity (vega) can differ. ATM options usually have the highest vega. The impact is generally similar for calls and puts at-the-money, but can differ for ITM/OTM options.")
